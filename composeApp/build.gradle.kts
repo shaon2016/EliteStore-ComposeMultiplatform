@@ -35,25 +35,34 @@ kotlin {
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
+            api(compose.runtime)
+            api(compose.foundation)
+            api(compose.material)
             @OptIn(ExperimentalComposeLibrary::class)
-            implementation(compose.components.resources)
+            api(compose.components.resources)
 
             // image loading // Note 1.7.0 doesnt load image on android
             api("io.github.qdsfdhvh:image-loader:1.6.8")
 
             // DI
             api(libs.koin.core)
+            api(libs.koin.compose)
 
             // Networking
             api(libs.ktor.core)
             api(libs.ktor.logging)
             api(libs.ktor.serialization)
+            implementation(libs.ktor.contentNegotiation)
 
             // Coroutine
             api(libs.coroutine.core)
+
+            // Log
+            api(libs.napier)
+
+            // Coroutine
+            implementation(libs.coroutine.core)
+
 
 
             // Navigation
