@@ -8,9 +8,14 @@ import util.UIState
 class HomeContract {
     sealed class Event : ViewEvent {
         data object Initialize : Event()
+        data class ToDetails(val product: Product) : Event()
     }
 
-    sealed class Effect : ViewSideEffect
+    sealed class Effect : ViewSideEffect {
+        sealed class Navigation : Effect() {
+            data class ToDetails(val product: Product) : Navigation()
+        }
+    }
 
     data class State(
         val isLoading: Boolean = false,

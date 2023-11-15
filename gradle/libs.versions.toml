@@ -17,7 +17,6 @@ kotlin = "1.9.20"
 junit = "4.13.2"
 kotlinx-serialization = "1.6.0"
 
-
 #Networking
 ktor = "2.3.5"
 # Koin

@@ -6,5 +6,6 @@ import domain.entity.Product
 fun ProductResponseItem.toDomain() = Product(
     title = title,
     image = image,
-    price = price
+    price = price,
+    description = description
 )

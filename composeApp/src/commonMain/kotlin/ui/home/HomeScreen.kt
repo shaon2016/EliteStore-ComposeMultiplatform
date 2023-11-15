@@ -1,7 +1,9 @@
 package ui.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,11 +27,14 @@ import domain.entity.Product
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.koin.compose.koinInject
-import util.UIState
 import ui.component.LAUNCH_LISTEN_FOR_EFFECTS
+import util.UIState
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
+fun HomeScreen(
+    viewModel: HomeViewModel = koinInject(),
+    onNavigationRequested: (navigationEffect: HomeContract.Effect.Navigation) -> Unit
+) {
     val state = viewModel.state.collectAsState().value
 
     LaunchedEffect(LAUNCH_LISTEN_FOR_EFFECTS) {
@@ -37,9 +42,7 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
 
         viewModel.effect.onEach { effect ->
             when (effect) {
-                else -> {
-
-                }
+                is HomeContract.Effect.Navigation -> onNavigationRequested(effect)
             }
         }.collect()
     }
@@ -56,7 +59,8 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
                 UIState.SUCCESS -> {
                     HomeContent(
                         modifier = Modifier.padding(paddingValues),
-                        products = state.products
+                        products = state.products,
+                        onEventSent = { viewModel.setEvent(it) }
                     )
                 }
 
@@ -74,36 +78,39 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
 @Composable
 fun HomeContent(
     modifier: Modifier,
-    products: List<Product>
+    products: List<Product>,
+    onEventSent: (HomeContract.Event) -> Unit
 ) {
     LazyColumn(modifier) {
         items(products) { product ->
-            Image(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .padding(top = 8.dp),
-                painter = rememberImagePainter(product.image),
-                contentDescription = null
-            )
+            Column(Modifier.clickable { onEventSent(HomeContract.Event.ToDetails(product)) }) {
+                Image(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .padding(top = 8.dp),
+                    painter = rememberImagePainter(product.image),
+                    contentDescription = null
+                )
 
-            Text(
-                modifier = Modifier
-                    .padding(top = 8.dp, bottom = 2.dp)
-                    .padding(horizontal = 16.dp),
-                text = product.title,
-                style = MaterialTheme.typography.h6,
-                maxLines = 2
-            )
+                Text(
+                    modifier = Modifier
+                        .padding(top = 8.dp, bottom = 2.dp)
+                        .padding(horizontal = 16.dp),
+                    text = product.title,
+                    style = MaterialTheme.typography.h6,
+                    maxLines = 2
+                )
 
-            Text(
-                modifier = Modifier
-                    .padding(bottom = 8.dp)
-                    .padding(horizontal = 16.dp),
-                text = "Price: ${product.price}",
-                style = MaterialTheme.typography.subtitle1,
-                maxLines = 1
-            )
+                Text(
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                        .padding(horizontal = 16.dp),
+                    text = "Price: ${product.price}",
+                    style = MaterialTheme.typography.subtitle1,
+                    maxLines = 1
+                )
+            }
         }
     }
 }

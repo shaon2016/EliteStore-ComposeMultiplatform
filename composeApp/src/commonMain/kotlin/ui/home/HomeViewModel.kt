@@ -21,6 +21,10 @@ class HomeViewModel(private val productRepository: ProductRepository) :
             is HomeContract.Event.Initialize -> {
                 getProducts()
             }
+
+            is HomeContract.Event.ToDetails -> setEffect {
+                HomeContract.Effect.Navigation.ToDetails(event.product)
+            }
         }
     }
 
