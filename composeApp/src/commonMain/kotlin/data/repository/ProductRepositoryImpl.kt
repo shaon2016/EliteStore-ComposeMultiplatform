@@ -9,16 +9,20 @@ import domain.repository.ProductRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
 class ProductRepositoryImpl(private val client: HttpClient) : ProductRepository {
     override suspend fun getProducts(): NetworkResult<List<Product>> {
-        return safeApiCall {
+        return withContext(Dispatchers.IO) {
+            safeApiCall {
+                val json = client.get(urlString = "products").bodyAsText()
+                val response = Json.decodeFromString<List<ProductResponseItem>>(json)
 
-            val json = client.get(urlString = "products").bodyAsText()
-            val response = Json.decodeFromString<List<ProductResponseItem>>(json)
-
-            response.map { it.toDomain() }
+                response.map { it.toDomain() }
+            }
         }
     }
 
