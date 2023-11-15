@@ -6,8 +6,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ui.BaseViewModel
-import ui.DataState
+import moe.tlaster.precompose.viewmodel.viewModelScope
+import ui.component.BaseViewModel
+import util.UIState
 
 class HomeViewModel(private val productRepository: ProductRepository) :
     BaseViewModel<HomeContract.Event, HomeContract.Effect>() {
@@ -31,7 +32,7 @@ class HomeViewModel(private val productRepository: ProductRepository) :
                         it.copy(
                             isLoading = false,
                             products = result.data,
-                            dataState = DataState.SUCCESS
+                            UIState = UIState.SUCCESS
                         )
                     }
                 }
@@ -39,7 +40,7 @@ class HomeViewModel(private val productRepository: ProductRepository) :
                 is NetworkResult.Failure -> _state.update {
                     it.copy(
                         isLoading = false,
-                        dataState = DataState.FAILED
+                        UIState = UIState.FAILED
                     )
                 }
             }

@@ -25,8 +25,8 @@ import domain.entity.Product
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.koin.compose.koinInject
-import ui.DataState
-import ui.LAUNCH_LISTEN_FOR_EFFECTS
+import util.UIState
+import ui.component.LAUNCH_LISTEN_FOR_EFFECTS
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
@@ -51,16 +51,16 @@ fun HomeScreen(viewModel: HomeViewModel = koinInject()) {
         }
     ) { paddingValues ->
         Box(Modifier.fillMaxSize().padding(paddingValues)) {
-            when (state.dataState) {
-                DataState.INITIAL -> {}
-                DataState.SUCCESS -> {
+            when (state.UIState) {
+                UIState.INITIAL -> {}
+                UIState.SUCCESS -> {
                     HomeContent(
                         modifier = Modifier.padding(paddingValues),
                         products = state.products
                     )
                 }
 
-                DataState.FAILED -> {
+                UIState.FAILED -> {
                     Text("Failed to fetch product list")
                 }
             }

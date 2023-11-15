@@ -33,6 +33,9 @@ coroutinesVersion = "1.7.3"
 # Log
 napier = "2.6.1"
 
+# PreCompose
+preCompose = "1.5.7"
+
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -70,6 +73,10 @@ coroutine-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", ver
 # Log
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 
+# PreCompose
+precompose = { module = "moe.tlaster:precompose", version.ref = "preCompose" }
+precompose-viewModel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "preCompose" }
+precompose-koin = { module = "moe.tlaster:precompose-koin", version.ref = "preCompose" }
 
 [plugins]
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }

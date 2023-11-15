@@ -1,9 +1,9 @@
-package ui
+package ui.component
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import moe.tlaster.precompose.viewmodel.ViewModel
+import moe.tlaster.precompose.viewmodel.viewModelScope
 import org.koin.core.component.KoinComponent
 
 const val LAUNCH_LISTEN_FOR_EFFECTS = "launch-listen-to-effects"
@@ -11,8 +11,8 @@ const val LAUNCH_LISTEN_FOR_EFFECTS = "launch-listen-to-effects"
 interface ViewEvent
 interface ViewSideEffect
 
-abstract class BaseViewModel<EVENT : ViewEvent, EFFECT : ViewSideEffect> : KoinComponent {
-    protected val viewModelScope = CoroutineScope(Dispatchers.Main)
+abstract class BaseViewModel<EVENT : ViewEvent, EFFECT : ViewSideEffect>
+    : ViewModel(), KoinComponent {
 
     private var initializeCalled = false
 

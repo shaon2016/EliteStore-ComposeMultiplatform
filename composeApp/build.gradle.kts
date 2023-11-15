@@ -66,8 +66,9 @@ kotlin {
 
 
             // Navigation
-            //            api(libs.preCompose)
-            //            api(libs.preCompose.viewmodel)
+            api(libs.precompose)
+            api(libs.precompose.viewModel)
+            api(libs.precompose.koin)
         }
 
     }

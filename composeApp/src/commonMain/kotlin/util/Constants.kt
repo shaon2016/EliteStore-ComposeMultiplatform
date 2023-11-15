@@ -1,5 +1,5 @@
 package util
 
 object Constants {
-    const val BASE_URL = "fakestoreapi.com"
+    const val APP_NAME = "elite-store"
 }
