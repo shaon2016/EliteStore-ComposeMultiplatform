@@ -25,8 +25,4 @@ class ProductRepositoryImpl(private val client: HttpClient) : ProductRepository 
             }
         }
     }
-
-    override suspend fun getProduct(): NetworkResult<Product> {
-        TODO("Not yet implemented")
-    }
 }

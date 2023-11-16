@@ -5,10 +5,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,11 +21,24 @@ import com.seiko.imageloader.rememberImagePainter
 import domain.entity.Product
 
 @Composable
-fun DetailsScreen(product: Product) {
+fun DetailsScreen(
+    product: Product,
+    navigateBack: () -> Unit
+) {
     Scaffold(
         scaffoldState = rememberScaffoldState(),
         topBar = {
-            TopAppBar(title = { Text(text = "Details") })
+            TopAppBar(
+                navigationIcon = {
+                    IconButton(
+                        onClick = navigateBack,
+                        content = {
+                            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                        }
+                    )
+                },
+                title = { Text(text = "Details") }
+            )
         }
     ) {
         Column {

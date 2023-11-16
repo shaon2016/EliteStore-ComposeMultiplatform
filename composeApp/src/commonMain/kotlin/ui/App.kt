@@ -1,6 +1,7 @@
 package ui
 
 import androidx.compose.runtime.Composable
+import di.MyKoinApplication
 import moe.tlaster.precompose.PreComposeApp
 import theme.AppTheme
 
@@ -8,7 +9,9 @@ import theme.AppTheme
 fun App() {
     AppTheme {
         PreComposeApp {
-            Navigation()
+            MyKoinApplication {
+                Navigation()
+            }
         }
     }
 }

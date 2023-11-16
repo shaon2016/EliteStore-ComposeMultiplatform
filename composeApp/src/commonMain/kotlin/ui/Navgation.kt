@@ -1,24 +1,15 @@
 package ui
 
 import androidx.compose.runtime.Composable
-import domain.entity.Product
-import io.github.aakira.napier.Napier
 import io.ktor.utils.io.charsets.Charsets
 import io.ktor.utils.io.core.toByteArray
 import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.NavHost
-import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
-import moe.tlaster.precompose.viewmodel.viewModel
-import org.koin.compose.koinInject
-import org.koin.core.parameter.parameterArrayOf
-import org.koin.core.parameter.parametersOf
 import ui.details.DetailsScreen
 import ui.home.HomeContract
 import ui.home.HomeScreen
 import util.Constants.APP_NAME
-import util.JsonConverter
-import util.NavArgs.PRODUCT
 
 sealed class Route(val route: String) {
     data object Home : Route("$APP_NAME/home")
@@ -28,7 +19,7 @@ sealed class Route(val route: String) {
 @Composable
 fun Navigation() {
     val navigator = rememberNavigator()
-    val sharedVM : SharedVM = koinInject()
+    val sharedViewModel = koinViewModel(SharedViewModel::class)
 
     NavHost(
         navigator = navigator,
@@ -38,14 +29,17 @@ fun Navigation() {
             HomeScreen { navigationEffect ->
                 when (navigationEffect) {
                     is HomeContract.Effect.Navigation.ToDetails -> {
-                        sharedVM.product = navigationEffect.product
+                        sharedViewModel.product = navigationEffect.product
                         navigator.navigate(Route.Details.route)
                     }
                 }
             }
         }
         scene(route = Route.Details.route) { entry ->
-            DetailsScreen(sharedVM.product)
+            DetailsScreen(
+                product = sharedViewModel.product,
+                navigateBack = { navigator.goBack() }
+            )
         }
     }
 }
