@@ -26,6 +26,7 @@ import com.ashiq.elitestore.domain.entity.Product
 import com.ashiq.elitestore.ui.component.LAUNCH_LISTEN_FOR_EFFECTS
 import com.ashiq.elitestore.util.UIState
 import com.seiko.imageloader.rememberImagePainter
+import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.ahsiq.eliteStore.sharingResources.SharedRes
@@ -51,7 +52,7 @@ fun HomeScreen(
     Scaffold(
         scaffoldState = rememberScaffoldState(),
         topBar = {
-            TopAppBar(title = { Text(text = "Elite Store") })
+            TopAppBar(title = { Text(text = stringResource(SharedRes.strings.app_name)) })
         }
     ) { paddingValues ->
         Box(Modifier.fillMaxSize().padding(paddingValues)) {

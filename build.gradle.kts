@@ -13,7 +13,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("dev.icerock.moko:resources-generator:0.22.3")
+        classpath("dev.icerock.moko:resources-generator:0.23.0")
     }
 }
 

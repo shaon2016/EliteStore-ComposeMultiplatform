@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
 
     id("com.squareup.sqldelight").version("1.5.5")
+    // moko
     id("dev.icerock.mobile.multiplatform-resources")
 }
 
@@ -78,7 +79,8 @@ kotlin {
                 implementation("com.squareup.sqldelight:runtime:1.5.5")
 
                 // Sharing resource
-                api("dev.icerock.moko:resources:0.22.3")
+                api("dev.icerock.moko:resources:0.23.0")
+                api("dev.icerock.moko:resources-compose:0.23.0")
             }
         }
 

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -25,7 +26,6 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -41,8 +41,11 @@ import com.ashiq.elitestore.domain.entity.CartItem
 import com.ashiq.elitestore.ui.component.LAUNCH_LISTEN_FOR_EFFECTS
 import com.ashiq.elitestore.util.roundTo
 import com.seiko.imageloader.rememberImagePainter
+import dev.icerock.moko.resources.compose.painterResource
+import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
+import org.ahsiq.eliteStore.sharingResources.SharedRes
 import org.koin.compose.koinInject
 
 @Composable
@@ -118,9 +121,7 @@ private fun CartContent(
         ) {
             Column {
                 Text(
-                    text = buildString {
-
-                    },
+                    text = stringResource(SharedRes.strings.total),
                     style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Medium)
                 )
                 Text(
@@ -134,7 +135,7 @@ private fun CartContent(
                     onEventSent(CartContract.Event.PlaceOrder)
                 }
             ) {
-                Text("Place Order")
+                Text(text = stringResource(SharedRes.strings.place_order))
             }
         }
     }
@@ -177,18 +178,23 @@ private fun CartItemRow(
                 )
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    IconButton(onClick = {
-                        if (cartItem.quantity > 1) {
-                            onEventSent(
-                                CartContract.Event.Decrement(
-                                    cartItem.productId,
-                                    cartItem.quantity - 1
+                    IconButton(
+                        onClick = {
+                            if (cartItem.quantity > 1) {
+                                onEventSent(
+                                    CartContract.Event.Decrement(
+                                        cartItem.productId,
+                                        cartItem.quantity - 1
+                                    )
                                 )
-                            )
+                            }
                         }
-                    }
                     ) {
-                        Icon(imageVector = Icons.Default.Clear, contentDescription = null)
+                        Icon(
+                            modifier = Modifier.size(24.dp),
+                            painter = painterResource(SharedRes.images.ic_subtract),
+                            contentDescription = null
+                        )
                     }
                     Text(
                         text = cartItem.quantity.toString()
@@ -223,7 +229,6 @@ private fun CartItemRow(
             }
         }
     }
-
 }
 
 
