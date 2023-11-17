@@ -1,6 +1,6 @@
 package com.ashiq.elitestore.ui.home
 
-import com.ashiq.elitestore.data.network.util.NetworkResult
+import com.ashiq.elitestore.util.Result
 import com.ashiq.elitestore.domain.repository.ProductRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,7 +31,7 @@ class HomeViewModel(private val productRepository: ProductRepository) :
     private fun getProducts() {
         viewModelScope.launch {
             when (val result = productRepository.getProducts()) {
-                is NetworkResult.Success -> {
+                is Result.Success -> {
                     _state.update {
                         it.copy(
                             isLoading = false,
@@ -41,7 +41,7 @@ class HomeViewModel(private val productRepository: ProductRepository) :
                     }
                 }
 
-                is NetworkResult.Failure -> _state.update {
+                is Result.Failure -> _state.update {
                     it.copy(
                         isLoading = false,
                         UIState = UIState.FAILED

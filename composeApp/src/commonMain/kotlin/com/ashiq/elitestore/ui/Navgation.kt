@@ -1,15 +1,15 @@
 package com.ashiq.elitestore.ui
 
 import androidx.compose.runtime.Composable
-import io.ktor.utils.io.charsets.Charsets
-import io.ktor.utils.io.core.toByteArray
-import moe.tlaster.precompose.koin.koinViewModel
-import moe.tlaster.precompose.navigation.NavHost
-import moe.tlaster.precompose.navigation.rememberNavigator
 import com.ashiq.elitestore.ui.details.DetailsScreen
 import com.ashiq.elitestore.ui.home.HomeContract
 import com.ashiq.elitestore.ui.home.HomeScreen
 import com.ashiq.elitestore.util.Constants.APP_NAME
+import io.ktor.utils.io.charsets.Charsets
+import io.ktor.utils.io.core.toByteArray
+import moe.tlaster.precompose.navigation.NavHost
+import moe.tlaster.precompose.navigation.rememberNavigator
+import org.koin.compose.koinInject
 
 sealed class Route(val route: String) {
     data object Home : Route("$APP_NAME/home")
@@ -19,7 +19,7 @@ sealed class Route(val route: String) {
 @Composable
 fun Navigation() {
     val navigator = rememberNavigator()
-    val sharedViewModel = koinViewModel(SharedViewModel::class)
+    val sharedViewModel: SharedViewModel = koinInject()
 
     NavHost(
         navigator = navigator,

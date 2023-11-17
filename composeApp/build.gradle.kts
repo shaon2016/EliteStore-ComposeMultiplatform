@@ -60,9 +60,9 @@ kotlin {
             api(libs.koin.compose)
 
             // Networking
-            api(libs.ktor.core)
-            api(libs.ktor.logging)
-            api(libs.ktor.serialization)
+            implementation(libs.ktor.core)
+            implementation(libs.ktor.logging)
+            implementation(libs.ktor.serialization)
             implementation(libs.ktor.contentNegotiation)
 
             // Coroutine

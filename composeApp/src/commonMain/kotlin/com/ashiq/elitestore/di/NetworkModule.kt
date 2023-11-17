@@ -13,7 +13,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
-fun networkModule() = module {
+val networkModule = module {
     single {
         HttpClient {
             defaultRequest {

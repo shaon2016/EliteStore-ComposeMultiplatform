@@ -2,8 +2,8 @@ package com.ashiq.elitestore.data.repository
 
 import com.ashiq.elitestore.data.mapper.toDomain
 import com.ashiq.elitestore.data.network.productlist.ProductResponseItem
-import com.ashiq.elitestore.data.network.util.NetworkResult
-import com.ashiq.elitestore.data.network.util.safeApiCall
+import com.ashiq.elitestore.util.Result
+import com.ashiq.elitestore.util.handleSafely
 import com.ashiq.elitestore.domain.entity.Product
 import com.ashiq.elitestore.domain.repository.ProductRepository
 import io.ktor.client.HttpClient
@@ -15,9 +15,9 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
 class ProductRepositoryImpl(private val client: HttpClient) : ProductRepository {
-    override suspend fun getProducts(): NetworkResult<List<Product>> {
+    override suspend fun getProducts(): Result<List<Product>> {
         return withContext(Dispatchers.IO) {
-            safeApiCall {
+            handleSafely {
                 val json = client.get(urlString = "products").bodyAsText()
                 val response = Json.decodeFromString<List<ProductResponseItem>>(json)
 

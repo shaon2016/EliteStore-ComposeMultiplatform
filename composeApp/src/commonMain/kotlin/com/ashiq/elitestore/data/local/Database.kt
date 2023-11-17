@@ -16,14 +16,6 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         )
     }
 
-    fun updateQuantity(productId: Int, quantity: Int) {
-        dbQuery.updateQuantity(quantity.toLong(), productId.toLong())
-    }
-
-    fun deleteCartItem(productId: Int) {
-        dbQuery.deleteCartItem(productId.toLong())
-    }
-
     fun getAll(): List<CartItem> {
         return dbQuery.getAll(
             mapper = { _, productId, title, price, quantity, imageUrl ->
@@ -36,6 +28,14 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
                 )
             }
         ).executeAsList()
+    }
+
+    fun updateQuantity(productId: Int, quantity: Int) {
+        dbQuery.updateQuantity(quantity.toLong(), productId.toLong())
+    }
+
+    fun deleteCartItem(productId: Int) {
+        dbQuery.deleteCartItem(productId.toLong())
     }
 
     fun clearCart() {
