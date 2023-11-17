@@ -7,6 +7,6 @@ import com.ashiq.elitestore.domain.repository.ProductRepository
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    single<ProductRepository> { ProductRepositoryImpl(client = get()) }
-    single<CartRepository> { CartRepositoryImpl(databaseDriverFactory = get()) }
+    factory<ProductRepository> { ProductRepositoryImpl(client = get()) }
+    factory<CartRepository> { CartRepositoryImpl(databaseDriverFactory = get()) }
 }

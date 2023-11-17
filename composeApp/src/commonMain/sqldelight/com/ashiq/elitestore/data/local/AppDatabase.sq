@@ -1,4 +1,4 @@
-CREATE TABLE CartItem (
+CREATE TABLE Cart (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     productId INTEGER NOT NULL,
     title TEXT NOT NULL,
@@ -9,21 +9,21 @@ CREATE TABLE CartItem (
 
 -- Insert data
 insertCartItem:
-INSERT INTO CartItem (productId, title, price, quantity, imageUrl)
+INSERT INTO Cart (productId, title, price, quantity, imageUrl)
 VALUES (?, ?, ?, ?, ?);
 
 -- Increment the quantity of a cart item based on productId
 updateQuantity:
-UPDATE CartItem SET quantity = ? WHERE productId = ?;
+UPDATE Cart SET quantity = ? WHERE productId = ?;
 
 -- Get all cart item
 getAll:
-SELECT CartItem.* FROM CartItem;
+SELECT Cart.* FROM Cart;
 
 -- Delete an item from the cart based on productId
 deleteCartItem:
-DELETE FROM CartItem WHERE productId = ?;
+DELETE FROM Cart WHERE productId = ?;
 
 -- Delete all
 deleteAll:
-DELETE FROM CartItem;
+DELETE FROM Cart;

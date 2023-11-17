@@ -7,6 +7,6 @@ interface CartRepository {
     suspend fun insert(cartItem: CartItem): Result<Unit>
     suspend fun getAll(): Result<List<CartItem>>
     suspend fun updateQuantity(productId: Int, quantity: Int): Result<Unit>
-    suspend fun deleteCartItem(productId: Int): Result<Unit>
+    suspend fun remove(productId: Int): Result<Unit>
     suspend fun clearCart(): Result<Unit>
 }

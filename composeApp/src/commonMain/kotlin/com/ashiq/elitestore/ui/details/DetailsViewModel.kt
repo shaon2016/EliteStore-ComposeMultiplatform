@@ -12,9 +12,15 @@ class DetailsViewModel(private val cartRepository: CartRepository) :
 
     override fun handleEvents(event: DetailsContract.Event) {
         when (event) {
-            is DetailsContract.Event.AddToCart -> {
-                addToCart(event.product)
+            is DetailsContract.Event.NavigateBack -> setEffect {
+                DetailsContract.Effect.Navigation.NavigateBack
             }
+
+            is DetailsContract.Event.ToCartScreen -> setEffect {
+                DetailsContract.Effect.Navigation.ToCartScreen
+            }
+
+            is DetailsContract.Event.AddToCart -> addToCart(event.product)
         }
     }
 
@@ -31,5 +37,4 @@ class DetailsViewModel(private val cartRepository: CartRepository) :
             )
         }
     }
-
 }

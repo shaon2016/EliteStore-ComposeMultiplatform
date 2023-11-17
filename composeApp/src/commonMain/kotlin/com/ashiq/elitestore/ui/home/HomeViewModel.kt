@@ -19,7 +19,9 @@ class HomeViewModel(private val productRepository: ProductRepository) :
     override fun handleEvents(event: HomeContract.Event) {
         when (event) {
             is HomeContract.Event.Initialize -> {
-                getProducts()
+                initialize {
+                    getProducts()
+                }
             }
 
             is HomeContract.Event.ToDetails -> setEffect {

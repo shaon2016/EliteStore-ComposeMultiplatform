@@ -15,21 +15,33 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.ashiq.elitestore.domain.entity.Product
 import com.seiko.imageloader.rememberImagePainter
-import moe.tlaster.precompose.koin.koinViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import org.koin.compose.koinInject
 
 @Composable
 fun DetailsScreen(
     product: Product,
-    navigateBack: () -> Unit
+    onNavigationRequest: (DetailsContract.Effect.Navigation) -> Unit
 ) {
-    val detailsViewModel : DetailsViewModel = koinInject()
+    val viewModel: DetailsViewModel = koinInject()
+
+    LaunchedEffect(Unit) {
+        viewModel.effect.onEach { effect ->
+            when (effect) {
+                is DetailsContract.Effect.Navigation -> onNavigationRequest(effect)
+            }
+        }.collect()
+    }
 
     Scaffold(
         scaffoldState = rememberScaffoldState(),
@@ -37,13 +49,25 @@ fun DetailsScreen(
             TopAppBar(
                 navigationIcon = {
                     IconButton(
-                        onClick = navigateBack,
+                        onClick = { viewModel.setEvent(DetailsContract.Event.NavigateBack) },
                         content = {
                             Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                         }
                     )
                 },
-                title = { Text(text = "Details") }
+                title = { Text(text = "Details") },
+                actions = {
+                    IconButton(
+                        onClick = { viewModel.setEvent(DetailsContract.Event.ToCartScreen) },
+                        content = {
+                            Icon(
+                                imageVector = Icons.Default.ShoppingCart,
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                        }
+                    )
+                }
             )
         }
     ) {
@@ -97,7 +121,7 @@ fun DetailsScreen(
             Button(
                 modifier = Modifier.fillMaxWidth().height(48.dp),
                 onClick = {
-                    detailsViewModel.setEvent(DetailsContract.Event.AddToCart(product))
+                    viewModel.setEvent(DetailsContract.Event.AddToCart(product))
                 }
             ) {
                 Text("Add to cart")

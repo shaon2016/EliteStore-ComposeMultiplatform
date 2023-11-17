@@ -49,7 +49,7 @@ class CartRepositoryImpl(databaseDriverFactory: DatabaseDriverFactory) : CartRep
         }
     }
 
-    override suspend fun deleteCartItem(productId: Int): Result<Unit> {
+    override suspend fun remove(productId: Int): Result<Unit> {
         return withContext(Dispatchers.IO) {
             handleSafely { db.deleteCartItem(productId) }
         }

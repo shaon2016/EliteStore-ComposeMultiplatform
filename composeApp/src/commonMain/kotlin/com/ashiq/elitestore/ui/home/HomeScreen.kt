@@ -22,13 +22,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.seiko.imageloader.rememberImagePainter
 import com.ashiq.elitestore.domain.entity.Product
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onEach
-import org.koin.compose.koinInject
 import com.ashiq.elitestore.ui.component.LAUNCH_LISTEN_FOR_EFFECTS
 import com.ashiq.elitestore.util.UIState
+import com.seiko.imageloader.rememberImagePainter
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
+import org.ahsiq.eliteStore.sharingResources.SharedRes
+import org.koin.compose.koinInject
 
 @Composable
 fun HomeScreen(
