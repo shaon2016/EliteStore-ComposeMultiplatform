@@ -5,7 +5,12 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.kotlinSerialization)
+
+    id("com.squareup.sqldelight").version("1.5.5")
 }
+
+group = "com.ashiq.elitestore"
+version = "1.0"
 
 kotlin {
     androidTarget {
@@ -33,7 +38,13 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation("com.squareup.sqldelight:android-driver:1.5.5")
         }
+
+        iosMain.dependencies {
+            implementation("com.squareup.sqldelight:native-driver:1.5.5")
+        }
+
         commonMain.dependencies {
             api(compose.runtime)
             api(compose.foundation)
@@ -68,7 +79,8 @@ kotlin {
             api(libs.precompose.viewModel)
             api(libs.precompose.koin)
 
-            api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10")
+            // database
+            implementation("com.squareup.sqldelight:runtime:1.5.5")
         }
 
     }
@@ -114,3 +126,8 @@ android {
     }
 }
 
+sqldelight {
+    database("AppDatabase") {
+        packageName = "com.ashiq.elitestore.data.local"
+    }
+}
