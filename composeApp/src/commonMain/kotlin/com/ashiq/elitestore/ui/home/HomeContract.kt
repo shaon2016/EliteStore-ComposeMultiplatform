@@ -8,11 +8,13 @@ import com.ashiq.elitestore.util.UIState
 class HomeContract {
     sealed class Event : ViewEvent {
         data object Initialize : Event()
+        data object ToCartScreen : Event()
         data class ToDetails(val product: Product) : Event()
     }
 
     sealed class Effect : ViewSideEffect {
         sealed class Navigation : Effect() {
+            data object ToCartScreen : Navigation()
             data class ToDetails(val product: Product) : Navigation()
         }
     }

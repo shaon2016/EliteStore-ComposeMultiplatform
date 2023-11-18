@@ -1,14 +1,14 @@
 package com.ashiq.elitestore.ui.home
 
-import com.ashiq.elitestore.util.Result
 import com.ashiq.elitestore.domain.repository.ProductRepository
+import com.ashiq.elitestore.ui.component.BaseViewModel
+import com.ashiq.elitestore.util.Result
+import com.ashiq.elitestore.util.UIState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.viewmodel.viewModelScope
-import com.ashiq.elitestore.ui.component.BaseViewModel
-import com.ashiq.elitestore.util.UIState
 
 class HomeViewModel(private val productRepository: ProductRepository) :
     BaseViewModel<HomeContract.Event, HomeContract.Effect>() {
@@ -26,6 +26,10 @@ class HomeViewModel(private val productRepository: ProductRepository) :
 
             is HomeContract.Event.ToDetails -> setEffect {
                 HomeContract.Effect.Navigation.ToDetails(event.product)
+            }
+
+            is HomeContract.Event.ToCartScreen -> setEffect {
+                HomeContract.Effect.Navigation.ToCartScreen
             }
         }
     }

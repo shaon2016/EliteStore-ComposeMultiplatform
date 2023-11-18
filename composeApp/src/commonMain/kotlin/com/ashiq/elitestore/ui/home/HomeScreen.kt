@@ -11,19 +11,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.ashiq.elitestore.domain.entity.Product
 import com.ashiq.elitestore.ui.component.LAUNCH_LISTEN_FOR_EFFECTS
+import com.ashiq.elitestore.ui.details.DetailsContract
 import com.ashiq.elitestore.util.UIState
 import com.seiko.imageloader.rememberImagePainter
 import dev.icerock.moko.resources.compose.stringResource
@@ -52,7 +58,21 @@ fun HomeScreen(
     Scaffold(
         scaffoldState = rememberScaffoldState(),
         topBar = {
-            TopAppBar(title = { Text(text = stringResource(SharedRes.strings.app_name)) })
+            TopAppBar(
+                title = { Text(text = stringResource(SharedRes.strings.app_name)) },
+                actions = {
+                    IconButton(
+                        onClick = { viewModel.setEvent(HomeContract.Event.ToCartScreen) },
+                        content = {
+                            Icon(
+                                imageVector = Icons.Default.ShoppingCart,
+                                contentDescription = null,
+                                tint = Color.White
+                            )
+                        }
+                    )
+                }
+            )
         }
     ) { paddingValues ->
         Box(Modifier.fillMaxSize().padding(paddingValues)) {

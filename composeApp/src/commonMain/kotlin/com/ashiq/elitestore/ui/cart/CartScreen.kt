@@ -167,7 +167,7 @@ private fun CartItemRow(
                 contentDescription = null
             )
 
-            Column(Modifier.weight(1f).fillMaxHeight()) {
+            Column(Modifier.padding(start = 8.dp).weight(1f).fillMaxHeight()) {
                 Text(
                     text = cartItem.title,
                     style = MaterialTheme.typography.subtitle2

@@ -34,6 +34,10 @@ fun Navigation() {
                         sharedViewModel.product = navigationEffect.product
                         navigator.navigate(Route.Details.route)
                     }
+
+                    is HomeContract.Effect.Navigation.ToCartScreen -> {
+                        navigator.navigate(Route.Cart.route)
+                    }
                 }
             }
         }
