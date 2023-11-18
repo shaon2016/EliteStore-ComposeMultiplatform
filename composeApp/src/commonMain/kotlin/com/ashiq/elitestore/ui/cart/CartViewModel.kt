@@ -36,22 +36,45 @@ class CartViewModel(private val cartRepository: CartRepository) :
             }
 
             is CartContract.Event.PlaceOrder -> {
-
+                placeOrder()
             }
 
             is CartContract.Event.Remove -> {
                 removeCartItem(event.productId)
             }
 
+            is CartContract.Event.HideOrderDialog -> {
+                _state.update { it.copy(showOrderDialog = false) }
+                setEffect {
+                    CartContract.Effect.Navigation.NavigateBackToHome
+                }
+            }
+        }
+    }
+
+    private fun placeOrder() {
+        if (_state.value.cartItems.isNotEmpty()) {
+            viewModelScope.launch {
+                when (val result = cartRepository.clearCart()) {
+                    is Result.Success -> {
+                        _state.update { it.copy(showOrderDialog = true) }
+                    }
+
+                    is Result.Failure -> {
+                        Napier.i("Failed to place order")
+                    }
+                }
+            }
         }
     }
 
     private fun removeCartItem(productId: Int) {
         viewModelScope.launch {
-            when(val result = cartRepository.remove(productId)) {
+            when (val result = cartRepository.remove(productId)) {
                 is Result.Success -> {
                     loadCartItems()
                 }
+
                 is Result.Failure -> {
                     Napier.i("Failed to update quantity")
                 }
@@ -61,10 +84,11 @@ class CartViewModel(private val cartRepository: CartRepository) :
 
     private fun updateQuantity(productId: Int, quantity: Int) {
         viewModelScope.launch {
-            when(cartRepository.updateQuantity(productId, quantity)) {
+            when (cartRepository.updateQuantity(productId, quantity)) {
                 is Result.Success -> {
                     loadCartItems()
                 }
+
                 is Result.Failure -> {
                     Napier.i("Failed to update quantity")
                 }

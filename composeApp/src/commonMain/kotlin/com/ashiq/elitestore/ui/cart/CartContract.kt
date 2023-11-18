@@ -9,6 +9,7 @@ class CartContract {
         data object NavigateBack : Event()
         data object Initialize : Event()
         data object PlaceOrder : Event()
+        data object HideOrderDialog : Event()
         data class Increment(val productId: Int, val quantity: Int) : Event()
         data class Decrement(val productId: Int, val quantity: Int) : Event()
         data class Remove(val productId: Int) : Event()
@@ -17,11 +18,13 @@ class CartContract {
     sealed class Effect : ViewSideEffect {
         sealed class Navigation : Effect() {
             data object NavigateBack : Navigation()
+            data object NavigateBackToHome : Navigation()
         }
     }
 
     data class State(
         val cartItems: List<CartItem> = listOf(),
-        val total: Double = 0.0
+        val total: Double = 0.0,
+        val showOrderDialog: Boolean = false
     )
 }

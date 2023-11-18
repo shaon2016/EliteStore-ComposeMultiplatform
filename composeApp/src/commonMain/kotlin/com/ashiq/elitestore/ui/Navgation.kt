@@ -9,6 +9,8 @@ import com.ashiq.elitestore.ui.home.HomeContract
 import com.ashiq.elitestore.ui.home.HomeScreen
 import com.ashiq.elitestore.util.Constants.APP_NAME
 import moe.tlaster.precompose.navigation.NavHost
+import moe.tlaster.precompose.navigation.NavOptions
+import moe.tlaster.precompose.navigation.PopUpTo
 import moe.tlaster.precompose.navigation.rememberNavigator
 import org.koin.compose.koinInject
 
@@ -56,6 +58,19 @@ fun Navigation() {
             CartScreen { onNavigationRequested ->
                 when (onNavigationRequested) {
                     is CartContract.Effect.Navigation.NavigateBack -> navigator.goBack()
+                    is CartContract.Effect.Navigation.NavigateBackToHome -> {
+                        navigator.navigate(
+                            Route.Home.route,
+                            NavOptions(
+                                popUpTo = PopUpTo(
+                                    // The destination of popUpTo
+                                    route = Route.Home.route,
+                                    // Whether the popUpTo destination should be popped from the back stack.
+                                    inclusive = true,
+                                )
+                            )
+                        )
+                    }
                 }
             }
         }

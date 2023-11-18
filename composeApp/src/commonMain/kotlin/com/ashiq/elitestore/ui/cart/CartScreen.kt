@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -22,6 +23,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -85,7 +87,44 @@ internal fun CartScreen(onNavigationRequest: (CartContract.Effect.Navigation) ->
             total = state.total,
             onEventSent = { viewModel.setEvent(it) }
         )
+
+        if (state.showOrderDialog) {
+            OrderDialog(
+                onEventSent = { viewModel.setEvent(CartContract.Event.HideOrderDialog) }
+            )
+        }
     }
+}
+
+@Composable
+private fun OrderDialog(onEventSent: (CartContract.Event) -> Unit) {
+    AlertDialog(
+        text = {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = stringResource(SharedRes.strings.order_dialog_msg),
+                    style = MaterialTheme.typography.h5
+                )
+            }
+        },
+        backgroundColor = Color.LightGray,
+        onDismissRequest = {},
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onEventSent(CartContract.Event.HideOrderDialog)
+                }
+            ) {
+                Text(
+                    text = "OK",
+                    style = MaterialTheme.typography.h5
+                )
+            }
+        }
+    )
 }
 
 @Composable
